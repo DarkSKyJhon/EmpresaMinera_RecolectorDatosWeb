@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: empresa_minera
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: E.M.H.2025BdD
+      MYSQL_DATABASE: empresa_minera
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: E.M.H.2025BdD
+    ports:
+      - "3307:3306"
+    volumes:
+      - empresa-minera-data:/var/lib/mysql
+    networks:
+      - app_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: empresa_minera_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: E.M.H.2025BdD
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - app_network
+
+volumes:
+  empresa-minera-data:
+
+networks:
+  app_network:
+    driver: bridge
